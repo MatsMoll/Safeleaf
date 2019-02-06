@@ -47,9 +47,17 @@ extension ViewNode {
     }
 }
 
-
+extension ViewRenderable {
+    public static func forEach<T>(_ collection: [T], render: (Int, T) -> ViewRenderable) -> [ViewRenderable] {
+        return collection.enumerated().map { render($0.offset, $0.element) }
+    }
+}
 
 extension ViewNode {
+
+    public static func forEach<T>(_ collection: [T], render: (Int, T) -> ViewNode) -> [ViewNode] {
+        return collection.enumerated().map { render($0.offset, $0.element) }
+    }
 
     public static func logic(_ closure: @escaping () -> ViewNode) -> ViewNode {
         return closure()
@@ -129,6 +137,10 @@ extension ViewNode {
 
     public static func title(_ content: ViewRenderable) -> ViewNode {
         return ViewNode(nodeName: "title", content: content)
+    }
+
+    public static func script(src: String, attributes: ViewNodeAttribute...) -> ViewNode {
+        return ViewNode(nodeName: "script", attributes: [.src(src)] + attributes, content: "")
     }
     
     public static func p(_ attributes: ViewNodeAttribute..., content: ViewRenderable) -> ViewNode {
