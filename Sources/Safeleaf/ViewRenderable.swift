@@ -8,10 +8,10 @@
 import Foundation
 
 
-typealias RenderedView = String
+public typealias RenderedView = String
 
 /// A protocol making a class able to render a html view
-protocol ViewRenderable {
+public protocol ViewRenderable {
 
     /// Renders a view
     ///
@@ -21,13 +21,13 @@ protocol ViewRenderable {
 
 
 extension Array: ViewRenderable where Element == ViewRenderable {
-    func render() throws -> String {
+    public func render() throws -> String {
         return try self.reduce("") { try $0 + $1.render() }
     }
 }
 
 extension String: ViewRenderable {
-    func render() -> String {
+    public func render() -> String {
         return self
     }
 }
