@@ -16,7 +16,7 @@ ViewNode
         ]),
         .body(nodes: [
             
-            .h1(.id("big-title"), .class("text-dark margin-top-3"),
+            .div(.id("some-id-tag"), .class("text-dark margin-top-3"),
                 node:
             
                 .logic {
@@ -29,7 +29,7 @@ ViewNode
                     }
                 }),
                 
-            .forEach(["An","Array","Of", "Strings"]) { index, element in
+            .forEach(["An", "Array", "Of", "Strings"]) { index, element in
                 .p(content: element)
             }
         ]),
