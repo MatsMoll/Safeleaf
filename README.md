@@ -29,10 +29,10 @@ ViewNode
                     }
                 }),
                 
-                .forEach(["An","Array","Of", "Strings"]) { index, element in
-                    .p(content: element)
-                }
-            ]),
+            .forEach(["An","Array","Of", "Strings"]) { index, element in
+                .p(content: element)
+            }
+        ]),
 
         .script(src: "Some script link"),
         .script(src: "More scripts")
