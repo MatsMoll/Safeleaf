@@ -10,7 +10,10 @@ Lets create a simple static view that is only a HTML div tag with some attribute
 ```swift
 final class SimpleView: StaticLeafView {
 
-    static func buildLeaf() throws -> ViewRenderable {  // <div id='Test' class='some-class'>Hello</div>
+    static func buildLeaf() throws -> ViewRenderable {
+    
+        //  <div id='Test' class='some-class'>Hello</div>
+        
         return
             div(attributes: [.id("Test"), .class("some-class")], children: "Hello")
     }
@@ -20,7 +23,13 @@ final class SimpleTemplate: LeafTemplate {
 
     var content: SimpleData!
 
-    static func buildLeaf() throws -> ViewRenderable { // <div><h1>#(content.title)</h1><p>#(content.description)</p></div>
+    static func buildLeaf() throws -> ViewRenderable { 
+    
+        //  <div>
+        //      <h1>#(content.title)</h1>
+        //      <p>#(content.description)</p>
+        //  </div>
+        
         return try
             div(children:
                 h1(children: variable(\.content.title)),
@@ -54,7 +63,14 @@ final class BaseTemplate: LeafTemplate {
 
     static func buildLeaf() throws -> ViewRenderable { 
     
-        // <html><head><title>#(content.title)</title><meta name='description' content='#(content.description)'/>#get(views.extraHeader)</head><body>#get(views.content)</body></html>
+        //  <html>
+        //      <head>
+        //          <title>#(content.title)</title>
+        //          <meta name='description' content='#(content.description)'/>
+        //          #get(views.extraHeader)
+        //      </head>
+        //      <body>#get(views.content)</body>
+        //  </html>
     
         return try  
             html(children:
@@ -76,7 +92,13 @@ final class UsingBaseTemplate: LeafBuildable {
 
     static func buildLeaf() throws -> ViewRenderable {
     
-        // #set("views.extraHeader") {<link href='some-url'/>}#set("views.content") {<h1>Some title</h1>}#embed(BaseTemplate)
+        //  #set("views.extraHeader") {
+        //      <link href='some-url'/>
+        //  }
+        //  #set("views.content") {
+        //      <h1>Some title</h1>
+        //  }
+        //  #embed(BaseTemplate)
     
         return try [
             set(for: \BaseTemplate.views.extraHeader) {
