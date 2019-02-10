@@ -19,7 +19,6 @@ public protocol ViewRenderable {
     func render() throws -> RenderedView
 }
 
-
 extension Array: ViewRenderable where Element == ViewRenderable {
     public func render() throws -> String {
         return try self.reduce("") { try $0 + $1.render() }

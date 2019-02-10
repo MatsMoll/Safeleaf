@@ -31,11 +31,19 @@ extension ViewNodeAttribute: ViewRenderable {
 extension ViewNodeAttribute {
 
     public static func `class`(_ values: String...) -> ViewNodeAttribute {
-        return ViewNodeAttribute(attribute: "class", value: values.reduce("") { $0 + " \($1)" })
+        return ViewNodeAttribute(attribute: "class", value: String(values.reduce("") { $0 + " \($1)" }.dropFirst()))
     }
 
     public static func id(_ value: String) -> ViewNodeAttribute {
         return ViewNodeAttribute(attribute: "id", value: value)
+    }
+
+    public static func lang(_ value: String) -> ViewNodeAttribute {
+        return ViewNodeAttribute(attribute: "id", value: value)
+    }
+
+    public static func alt(_ value: String) -> ViewNodeAttribute {
+        return ViewNodeAttribute(attribute: "alt", value: value)
     }
 
     public static func name(_ value: String) -> ViewNodeAttribute {
@@ -62,8 +70,8 @@ extension ViewNodeAttribute {
         return ViewNodeAttribute(attribute: "type", value: value)
     }
 
-    public static func charset(_ value: String.Encoding) -> ViewNodeAttribute {
-        return ViewNodeAttribute(attribute: "name", value: value.description)
+    public static func charset(_ value: String) -> ViewNodeAttribute {
+        return ViewNodeAttribute(attribute: "name", value: value)
     }
 
     public static func dataToggle(_ toggle: String) -> ViewNodeAttribute {
@@ -76,5 +84,37 @@ extension ViewNodeAttribute {
 
     public static func onClick(_ functionName: String) -> ViewNodeAttribute {
         return ViewNodeAttribute(attribute: "onclick", value: functionName)
+    }
+
+    public static func width(_ width: Int) -> ViewNodeAttribute {
+        return ViewNodeAttribute(attribute: "width", value: "\(width)")
+    }
+
+    public static func height(_ height: Int) -> ViewNodeAttribute {
+        return ViewNodeAttribute(attribute: "width", value: "\(height)")
+    }
+
+    public static func `for`(_ value: String) -> ViewNodeAttribute {
+        return ViewNodeAttribute(attribute: "for", value: value)
+    }
+
+    public static func checked(_ value: String = "") -> ViewNodeAttribute {
+        return ViewNodeAttribute(attribute: "checked", value: value)
+    }
+
+    public static func placeholder(_ text: String) -> ViewNodeAttribute {
+        return ViewNodeAttribute(attribute: "placeholder", value: text)
+    }
+
+    public static func action(_ text: String) -> ViewNodeAttribute {
+        return ViewNodeAttribute(attribute: "action", value: text)
+    }
+
+    public static func method(_ text: String) -> ViewNodeAttribute {
+        return ViewNodeAttribute(attribute: "method", value: text)
+    }
+
+    public static func `required`(_ text: String = "") -> ViewNodeAttribute {
+        return ViewNodeAttribute(attribute: "method", value: text)
     }
 }

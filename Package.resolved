@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "codable-kit",
+        "repositoryURL": "https://github.com/vapor/codable-kit.git",
+        "state": {
+          "branch": "reflection",
+          "revision": "85d2b3453e2022437fb550736536fe342a23095c",
+          "version": null
+        }
+      }
+    ]
+  },
+  "version": 1
+}
