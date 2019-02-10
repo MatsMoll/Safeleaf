@@ -45,7 +45,7 @@ Whats the differance between these three?
 
 - `StaticLeafView` is a static view that needs no variables to render. Shown above in `SimpleView`
 - `LeafTemplate` is a view that needs some content to render. Shown above in `SimpleTemplate`. Here you can se the renderd leaf has two variables.
-- `SimpleTemplate` a generic class that can build a leaf file
+- `LeafBuildable` a generic class that can build a leaf file
 
 But what about embedding files?
 
