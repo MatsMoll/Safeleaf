@@ -3,7 +3,51 @@
 Render Leaf templating files in a **typesafe** way.
 By combining the Leaf templating language, and the Swift programming language, you can catch bugs earlier in the process. 
 
-So how does it work?
+## Config your Vapor project
+
+in your config file, add the provider and sett the `LeafViewConfig` with the views you want to use.
+```swift
+
+public func configure(_ config: inout Config, _ env: inout Environment, _ services: inout Services) throws {
+    ...
+    try services.register(LeafViewProvider())
+    
+    services.register { (container) -> LeafViewConfig in
+        var config = try LeafViewConfig(container: container)
+        try config.register(BaseView.self)
+        try config.register(WelcomeView.self)
+        try config.register(HelloView.self)
+        return config
+    }
+    ...
+}
+```
+
+This will automatically generate your views and save the leaf files to disc. This will make it possible for you to edit the file, and "hot-refresh" the views when developing.
+
+*There will be service to convert HTML to the swift format, in order to make the process easier. But this is not completely done as of now*
+
+## Render the views
+
+You can render the views to the user by calling some helper functions. There are two options for two different type of views.
+
+```swift
+router.get { req in
+    return try req      // Renders a LeafTemplate that take a context variable
+        .view()
+        .render(template: DynamicWelcomeView.self, 
+                with: "Hello")
+}
+
+
+router.get { req in
+    return try req      // Renders a StaticLeafView that do not need any context
+        .view()
+        .render(static: StaticWelcomeView.self)
+}
+```
+
+## So how does it work?
 
 Lets create a simple static view that is only a HTML div tag with some attributes and some text inside.
 
@@ -23,7 +67,7 @@ final class SimpleTemplate: LeafTemplate {
 
     var content: SimpleData!
 
-    static func buildLeaf() throws -> ViewRenderable { 
+    static func buildLeaf() throws -> LeafViewRenderable { 
     
         //  <div>
         //      <h1>#(content.title)</h1>
@@ -49,7 +93,7 @@ Whats the differance between these three?
 
 But what about embedding files?
 
-This is done safely by checking if the variable names match in the embedded view and the view embedding it.
+This is done safely by checking if the variable names match in the embedded view and the view embedding it. Otherwise there will be an error thrown for you to handle.
 
 ```swift
 
@@ -61,7 +105,7 @@ final class BaseTemplate: LeafTemplate {
     var views: BaseTemplateView!
 
 
-    static func buildLeaf() throws -> ViewRenderable { 
+    static func buildLeaf() throws -> LeafViewRenderable { 
     
         //  <html>
         //      <head>
@@ -98,7 +142,7 @@ final class UsingBaseTemplate: LeafBuildable {
         //  #set("views.content") {
         //      <h1>Some title</h1>
         //  }
-        //  #embed(BaseTemplate)
+        //  #embed("BaseTemplate")
     
         return try [
             set(for: \BaseTemplate.views.extraHeader) {

@@ -43,7 +43,7 @@ final class SafeleafTests: XCTestCase {
 
     func boilerplateTestCase<T: LeafTestable>(_ type: T.Type) throws {
         let render = try T.renderLeaf()
-        XCTAssertEqual(T.expexted, render, "Render: \n\(render)\n- Did not match the expexted result")
+        XCTAssertEqual(T.expexted, render)
     }
 
     func boilerplateTestCase<T: LeafErrorTestable>(_ type: T.Type) {
