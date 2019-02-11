@@ -14,9 +14,9 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     
     services.register { (container) -> LeafViewConfig in
         var config = try LeafViewConfig(container: container)
-        try config.register(BaseView.self)
-        try config.register(WelcomeView.self)
-        try config.register(HelloView.self)
+        try config.add(BaseView.self)
+        try config.add(WelcomeView.self)
+        try config.add(HelloView.self)
         return config
     }
     ...
