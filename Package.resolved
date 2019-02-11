@@ -9,6 +9,60 @@
           "revision": "ab5cb15e744e5fe57ab255f803fb92ccaf88c80c",
           "version": null
         }
+      },
+      {
+        "package": "Core",
+        "repositoryURL": "https://github.com/vapor/core.git",
+        "state": {
+          "branch": null,
+          "revision": "1794ff138bd669175a2528d27695028d7cb30471",
+          "version": "3.5.0"
+        }
+      },
+      {
+        "package": "Leaf",
+        "repositoryURL": "https://github.com/vapor/leaf.git",
+        "state": {
+          "branch": null,
+          "revision": "d35f54cbac723e673f9bd5078361eea74049c8d7",
+          "version": "3.0.2"
+        }
+      },
+      {
+        "package": "Service",
+        "repositoryURL": "https://github.com/vapor/service.git",
+        "state": {
+          "branch": null,
+          "revision": "281a70b69783891900be31a9e70051b6fe19e146",
+          "version": "1.0.0"
+        }
+      },
+      {
+        "package": "swift-nio",
+        "repositoryURL": "https://github.com/apple/swift-nio.git",
+        "state": {
+          "branch": null,
+          "revision": "98434c1f1d687ff5a24d2cabfbd19b5c7d2d7a2f",
+          "version": "1.13.0"
+        }
+      },
+      {
+        "package": "swift-nio-zlib-support",
+        "repositoryURL": "https://github.com/apple/swift-nio-zlib-support.git",
+        "state": {
+          "branch": null,
+          "revision": "37760e9a52030bb9011972c5213c3350fa9d41fd",
+          "version": "1.0.0"
+        }
+      },
+      {
+        "package": "TemplateKit",
+        "repositoryURL": "https://github.com/vapor/template-kit.git",
+        "state": {
+          "branch": null,
+          "revision": "aff2d6fc65bfd04579b0201b31a8d6720239c1cf",
+          "version": "1.1.1"
+        }
       }
     ]
   },

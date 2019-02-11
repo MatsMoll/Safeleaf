@@ -11,7 +11,7 @@ import Foundation
 public typealias RenderedView = String
 
 /// A protocol making a class able to render a html view
-public protocol ViewRenderable {
+public protocol LeafViewRenderable {
 
     /// Renders a view
     ///
@@ -19,13 +19,13 @@ public protocol ViewRenderable {
     func render() throws -> RenderedView
 }
 
-extension Array: ViewRenderable where Element == ViewRenderable {
+extension Array: LeafViewRenderable where Element == LeafViewRenderable {
     public func render() throws -> String {
         return try self.reduce("") { try $0 + $1.render() }
     }
 }
 
-extension String: ViewRenderable {
+extension String: LeafViewRenderable {
     public func render() -> String {
         return self
     }

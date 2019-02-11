@@ -16,7 +16,7 @@ final class SimpleView: StaticLeafView, LeafTestable {
 
     static let expexted = "<div id='Test' class='some-class'>Hello</div>"
 
-    static func buildLeaf() throws -> ViewRenderable {
+    static func buildLeaf() throws -> LeafViewRenderable {
         return
             div(attributes: [.id("Test"), .class("some-class")], children: "Hello")
     }
@@ -26,7 +26,7 @@ final class NestedView: StaticLeafView, LeafTestable {
 
     static let expexted = "<div><h1>Title</h1><p>Text</p></div>"
 
-    static func buildLeaf() throws -> ViewRenderable {
+    static func buildLeaf() throws -> LeafViewRenderable {
         return
             div(children:
                 h1(children: "Title"),
@@ -44,7 +44,7 @@ final class SimpleTemplate: LeafTemplate, LeafTestable {
 
     var content: SimpleData!
 
-    static func buildLeaf() throws -> ViewRenderable {
+    static func buildLeaf() throws -> LeafViewRenderable {
         return try
             div(children:
                 h1(children: variable(\.content.title)),
@@ -56,13 +56,13 @@ final class SimpleTemplate: LeafTemplate, LeafTestable {
 
 final class EmbedingStaticView: LeafTemplate, ReflectableCodable, LeafTestable {
 
-    static let expexted = "<div><h1>#(simpleData.title)</h1>#embed(SimpleView)</div>"
+    static let expexted = "<div><h1>#(simpleData.title)</h1>#embed(\"SimpleView\")</div>"
 
     static let contentPath: WritableKeyPath<EmbedingStaticView, SimpleData> = \.simpleData
 
     var simpleData: SimpleData!
 
-    static func buildLeaf() throws -> ViewRenderable {
+    static func buildLeaf() throws -> LeafViewRenderable {
         return try
             div(children:
                 h1(children: variable(\.simpleData.title)),
@@ -76,8 +76,8 @@ struct BaseTemplateView: ReflectableCodable, ReflectionDecodableObject {
     static var leftExample = BaseTemplateView(extraHeader: .empty, content: .empty)
     static var rightExample = BaseTemplateView(extraHeader: .one, content: .one)
 
-    var extraHeader: ViewBuilder
-    var content: ViewBuilder
+    var extraHeader: LeafViewBuilder
+    var content: LeafViewBuilder
 }
 
 
@@ -90,7 +90,7 @@ final class BaseTemplate: LeafTemplate, LeafTestable {
     var views: BaseTemplateView!
 
 
-    static func buildLeaf() throws -> ViewRenderable {
+    static func buildLeaf() throws -> LeafViewRenderable {
         return try
             html(children:
                 head(children:
@@ -108,11 +108,11 @@ final class BaseTemplate: LeafTemplate, LeafTestable {
 
 final class UsingBaseTemplate: LeafBuildable, LeafTestable {
 
-    static var expexted: String = "#set(\"views.extraHeader\") {<link href='some-url'/>}#set(\"views.content\") {<h1>Some title</h1>}#embed(BaseTemplate)"
+    static var expexted: String = "#set(\"views.extraHeader\") {<link href='some-url'/>}#set(\"views.content\") {<h1>Some title</h1>}#embed(\"BaseTemplate\")"
 
     let content: SimpleData
 
-    static func buildLeaf() throws -> ViewRenderable {
+    static func buildLeaf() throws -> LeafViewRenderable {
         return try [
             set(for: \BaseTemplate.views.extraHeader) {
                 link(href: "some-url")
@@ -137,14 +137,41 @@ struct SimpleData: ReflectableCodable, ReflectionDecodableObject {
 
 
 final class ForEachViewTest: LeafBuildable, LeafTestable {
-    static let expexted: String = "<div>#for(simpleData in simpleDatas) {#embed(EmbedingStaticView)}</div>"
+    static let expexted: String = "<div>#for(simpleData in simpleDatas) {#embed(\"EmbedingStaticView\")}</div>"
 
     var simpleDatas: [SimpleData]
 
-    static func buildLeaf() throws -> ViewRenderable {
+    static func buildLeaf() throws -> LeafViewRenderable {
         return try
             div(children:
                 forEach(in: \.simpleDatas, render: EmbedingStaticView.self)
         )
+    }
+}
+
+
+protocol LeafErrorTestable: LeafRenderable {
+    static var expextedError: Error { get }
+}
+
+final class EmbedViewError: StaticLeafView, LeafErrorTestable {
+
+    static var expextedError: Error = LeafTemplateError.keyMismatch
+
+    static func buildLeaf() throws -> LeafViewRenderable {
+        return try embed(template: BaseTemplate.self)
+    }
+}
+
+final class ForEachError: LeafTemplate, LeafErrorTestable {
+
+    static var expextedError: Error = LeafTemplateError.keyMismatch
+
+    static var contentPath: WritableKeyPath<ForEachError, [SimpleData]> = \.someValue
+
+    var someValue: [SimpleData]
+
+    static func buildLeaf() throws -> LeafViewRenderable {
+        return try forEach(in: \.someValue, render: BaseTemplate.self)
     }
 }

@@ -32,10 +32,24 @@ final class SafeleafTests: XCTestCase {
         try boilerplateTestCase(UsingBaseTemplate.self)
     }
 
+    func testEmbedError() {
+        boilerplateTestCase(EmbedViewError.self)
+    }
+
+    func testForEachError() {
+        boilerplateTestCase(ForEachError.self)
+    }
+
 
     func boilerplateTestCase<T: LeafTestable>(_ type: T.Type) throws {
         let render = try T.renderLeaf()
-        XCTAssertTrue(render == T.expexted, "Render: \n\(render)\n- Did not match the expexted result")
+        XCTAssertEqual(T.expexted, render, "Render: \n\(render)\n- Did not match the expexted result")
+    }
+
+    func boilerplateTestCase<T: LeafErrorTestable>(_ type: T.Type) {
+        XCTAssertThrowsError(try T.renderLeaf(), "Should throw, but did not!") { (error) in
+            XCTAssertEqual(T.expextedError.localizedDescription, error.localizedDescription)
+        }
     }
 
 
