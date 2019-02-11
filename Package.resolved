@@ -3,10 +3,10 @@
     "pins": [
       {
         "package": "codable-kit",
-        "repositoryURL": "https://github.com/vapor/codable-kit.git",
+        "repositoryURL": "https://github.com/MatsMoll/codable-kit.git",
         "state": {
-          "branch": "reflection",
-          "revision": "85d2b3453e2022437fb550736536fe342a23095c",
+          "branch": "nested-keypath-bug",
+          "revision": "ab5cb15e744e5fe57ab255f803fb92ccaf88c80c",
           "version": null
         }
       }
